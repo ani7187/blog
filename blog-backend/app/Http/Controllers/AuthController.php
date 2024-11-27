@@ -49,12 +49,13 @@ class AuthController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             // If successful, get the user and generate token (if using Sanctum)
             $user = Auth::user();
-            $token = $user->createToken('YourAppName')->plainTextToken;
+            $token = $user->createToken('App')->plainTextToken;
 
             // Return response with token
             return response()->json([
                 'message' => 'Login successful',
                 'token' => $token,
+                'user' => $user
             ], 200);
         }
 

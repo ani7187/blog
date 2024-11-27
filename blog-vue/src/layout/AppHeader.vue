@@ -25,6 +25,7 @@
 
 <script>
 import BaseNav from "@/components/BaseNav";
+import axios from "axios";
 
 export default {
   components: {
@@ -45,7 +46,20 @@ export default {
       // Clear the login token and update state
       localStorage.removeItem("token");
       this.loggedIn = false;
-
+      const response = axios.post(
+          'http://127.0.0.1:8000/api/logout',
+          {
+            email: this.email,
+            password: this.password,
+          },
+          {
+            /*headers: {
+              accept: 'application/json',
+              'X-XSRF-TOKEN': this.getCookie("XSRF-TOKEN")
+            },*/
+            withCredentials: true
+          },
+      );
       // Optionally redirect to the homepage or login
       this.$router.push("/");
     },

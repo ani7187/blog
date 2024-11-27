@@ -7,27 +7,25 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
 
-// CSRF Token Route (public, no authentication required)
-Route::get('sanctum/csrf-cookie', [CsrfCookieController::class, 'show'])->name('csrf');
-
-
 // Authentication Routes (public, no authentication required)
+
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
-Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::post('logout', [AuthController::class, 'logout']);
 
 // Email Verification Routes (public)
-Route::middleware('auth:sanctum')->post('email/verification-notification', [AuthController::class, 'resendVerificationEmail']);
+Route::post('email/verification-notification', [AuthController::class, 'resendVerificationEmail']);
 Route::post('/verification/send', [AuthController::class, 'sendVerificationEmail']);
 
 // Authenticated User Route (requires authentication)
 Route::get('/user', function (Request $request) {
-    return "aa";
+    return $request->user();
 });
-
+Route::middleware(['auth:sanctum'])->group(function () {
 // Post Routes (public for index, authenticated for create, update, delete)
-Route::middleware('auth:sanctum')->get('posts', [PostController::class, 'index']);
-Route::middleware('auth:sanctum')->get('user/posts', [PostController::class, 'userPosts']);
-Route::middleware('auth:sanctum')->post('posts', [PostController::class, 'store']);
-Route::middleware('auth:sanctum')->put('posts/{post}', [PostController::class, 'update']);
-Route::middleware('auth:sanctum')->delete('posts/{post}', [PostController::class, 'destroy']);
+    Route::get('posts', [PostController::class, 'index']);
+    Route::get('user/posts', [PostController::class, 'userPosts']);
+    Route::post('posts', [PostController::class, 'store']);
+    Route::put('posts/{post}', [PostController::class, 'update']);
+    Route::delete('posts/{post}', [PostController::class, 'destroy']);
+});

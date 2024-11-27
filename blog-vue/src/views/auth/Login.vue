@@ -57,8 +57,6 @@
 
 <script>
 import axios from 'axios';
-/*axios.defaults.baseURL = 'http://127.0.0.1:8000'; // Laravel backend URL
-axios.defaults.withCredentials = true;*/
 export default {
   data() {
     return {
@@ -69,7 +67,7 @@ export default {
   },
 
   methods: {
-    async login() {
+     login() {
       this.error = this.validateForm();
 
       if (this.error) {
@@ -78,8 +76,8 @@ export default {
       }
 
       try {
-        await axios.get('http://127.0.0.1:8000/api/sanctum/csrf-cookie', {withCredentials: true});
-        const response = await axios.post(
+         axios.get('http://127.0.0.1:8000/api/sanctum/csrf-cookie', {withCredentials: true});
+        const response =  axios.post(
             'http://127.0.0.1:8000/api/login',
             {
               email: this.email,
@@ -93,10 +91,9 @@ export default {
             withCredentials: true
             },
         );
-
         localStorage.setItem('token', response.data.token);
-        // await this.$router.push("/posts");
-        // window.location.reload()
+        this.$router.push("/posts");
+        window.location.reload()
       } catch (error) {
         // Handle error response
         // this.error = error

@@ -87,20 +87,20 @@ export default {
     async fetchPosts(page = 1) {
       try {
         // const response = axios.get(`http://127.0.0.1:8000/api/posts?page=${page}`)
-        await axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie', {withCredentials: true});
+        // await axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie', {withCredentials: true});
 
         const response = await axios.get(
             `http://127.0.0.1:8000/api/posts?page=${page}`,
             {
-              headers: {
+              /*headers: {
                 accept: 'application/json',
                 'X-XSRF-TOKEN': this.getCookie("XSRF-TOKEN")
-              },
+              },*/
               withCredentials: true
             },
         );
 
-
+console.log(response)
         this.posts = response.data;
         this.currentPage = page;
       } catch (error) {
