@@ -21,11 +21,11 @@ Route::post('/verification/send', [AuthController::class, 'sendVerificationEmail
 Route::get('/user', function (Request $request) {
     return $request->user();
 });
-Route::middleware(['auth:sanctum'])->group(function () {
+//Route::middleware(['auth:sanctum'])->group(function () {
 // Post Routes (public for index, authenticated for create, update, delete)
     Route::get('posts', [PostController::class, 'index']);
     Route::get('user/posts', [PostController::class, 'userPosts']);
     Route::post('posts', [PostController::class, 'store']);
     Route::put('posts/{post}', [PostController::class, 'update']);
     Route::delete('posts/{post}', [PostController::class, 'destroy']);
-});
+//});
